@@ -21,6 +21,7 @@ function crear(datos) {
             titulo: datos.titulo,
             descripcion: datos.descripcion,
             completada: datos.completada ?? false,
+            categoriaId: datos.categoriaId,
         },
     });
 }

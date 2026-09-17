@@ -3,6 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 const tareasRoutes = require('./routes/tareas.routes');
+const categoriasRoutes = require('./routes/categorias.routes');
 const authRoutes = require('./routes/auth.routes');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use('/auth', authRoutes);
 
 // Registra todas las rutas de tareas bajo el prefijo /tareas.
 app.use('/tareas', tareasRoutes);
+app.use('/categorias', categoriasRoutes);
 
 // Respuesta para rutas que no existen.
 app.use((req, res) => {

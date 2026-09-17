@@ -31,6 +31,14 @@ function validarDatos(datos, esActualizacion = false) {
         return 'El campo completada debe ser booleano.';
     }
 
+    if (!esActualizacion && (!Number.isInteger(datos.categoriaId) || datos.categoriaId <= 0)) {
+        return 'El campo categoriaId es obligatorio y debe ser un entero positivo.';
+    }
+
+    if (datos.categoriaId !== undefined && (!Number.isInteger(datos.categoriaId) || datos.categoriaId <= 0)) {
+        return 'El campo categoriaId debe ser un entero positivo.';
+    }
+
     return undefined;
 }
 
@@ -69,6 +77,7 @@ async function crear(req, res) {
         titulo: req.body.titulo.trim(),
         descripcion: req.body.descripcion ?? '',
         completada: req.body.completada,
+        categoriaId: req.body.categoriaId,
     });
 
     return res.status(201).json(tarea);

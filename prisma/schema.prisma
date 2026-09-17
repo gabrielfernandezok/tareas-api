@@ -15,14 +15,24 @@ model Usuario {
   tareas    Tarea[]
 }
 
+model Categoria {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  createdAt DateTime @default(now())
+  tareas    Tarea[]
+}
+
 model Tarea {
   id          Int      @id @default(autoincrement())
   titulo      String
   descripcion String
   completada  Boolean  @default(false)
   usuarioId   Int
+  categoriaId Int
   createdAt   DateTime @default(now())
   usuario     Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
 
   @@index([usuarioId])
+  @@index([categoriaId])
 }
