@@ -9,6 +9,13 @@ function obtenerId(parametroId) {
     return Number.isInteger(id) && id > 0 ? id : undefined;
 }
 
+function obtenerCategoriaId(valor) {
+    if (valor === undefined || valor === null || valor === '') return undefined;
+
+    const categoriaId = Number(valor);
+    return Number.isInteger(categoriaId) && categoriaId > 0 ? categoriaId : undefined;
+}
+
 // Comprueba los campos permitidos y obligatorios de una tarea.
 function validarDatos(datos, esActualizacion = false) {
     if (!datos || typeof datos !== 'object' || Array.isArray(datos)) {
@@ -31,12 +38,10 @@ function validarDatos(datos, esActualizacion = false) {
         return 'El campo completada debe ser booleano.';
     }
 
-    if (!esActualizacion && (!Number.isInteger(datos.categoriaId) || datos.categoriaId <= 0)) {
-        return 'El campo categoriaId es obligatorio y debe ser un entero positivo.';
-    }
-
-    if (datos.categoriaId !== undefined && (!Number.isInteger(datos.categoriaId) || datos.categoriaId <= 0)) {
-        return 'El campo categoriaId debe ser un entero positivo.';
+    if (datos.categoriaId !== undefined && datos.categoriaId !== null && datos.categoriaId !== '') {
+        if (obtenerCategoriaId(datos.categoriaId) === undefined) {
+            return 'El campo categoriaId debe ser un entero positivo.';
+        }
     }
 
     return undefined;
@@ -77,7 +82,7 @@ async function crear(req, res) {
         titulo: req.body.titulo.trim(),
         descripcion: req.body.descripcion ?? '',
         completada: req.body.completada,
-        categoriaId: req.body.categoriaId,
+        categoriaId: obtenerCategoriaId(req.body.categoriaId),
     });
 
     return res.status(201).json(tarea);
@@ -99,6 +104,7 @@ async function actualizar(req, res) {
 
     const datos = { ...req.body };
     if (datos.titulo !== undefined) datos.titulo = datos.titulo.trim();
+    if (datos.categoriaId !== undefined) datos.categoriaId = obtenerCategoriaId(datos.categoriaId);
 
     const tarea = await tareasService.actualizar(id, req.usuario.usuarioId, datos);
 

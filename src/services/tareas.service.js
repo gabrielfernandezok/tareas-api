@@ -15,14 +15,17 @@ function obtenerPorId(id, usuarioId) {
 
 // Crea una tarea nueva con un identificador autogenerado.
 function crear(datos) {
+    const data = {
+        usuarioId: datos.usuarioId,
+        titulo: datos.titulo,
+        descripcion: datos.descripcion,
+        completada: datos.completada ?? false,
+    };
+
+    if (datos.categoriaId !== undefined) data.categoriaId = datos.categoriaId;
+
     return prisma.tarea.create({
-        data: {
-            usuarioId: datos.usuarioId,
-            titulo: datos.titulo,
-            descripcion: datos.descripcion,
-            completada: datos.completada ?? false,
-            categoriaId: datos.categoriaId,
-        },
+        data,
     });
 }
 

@@ -28,10 +28,10 @@ model Tarea {
   descripcion String
   completada  Boolean  @default(false)
   usuarioId   Int
-  categoriaId Int
+  categoriaId Int?
   createdAt   DateTime @default(now())
   usuario     Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  categoria   Categoria? @relation(fields: [categoriaId], references: [id])
 
   @@index([usuarioId])
   @@index([categoriaId])
